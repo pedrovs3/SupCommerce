@@ -9,7 +9,10 @@ export default {
       transitionDuration: {
         DEFAULT: "450ms",
       },
+      animation: {
+        "fade-in": "fadeIn 0.5s ease-in-out forwards",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
