@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { Await, useOutletContext } from "react-router-dom";
 import { cn, DELAY_CLASSES } from "../lib/tailwind";
 import { HomeContext } from "../types/home";
@@ -15,8 +15,11 @@ export interface Product {
 export function Home() {
   const { products }: HomeContext = useOutletContext();
 
-  console.log(products);
-
+  useEffect(() => {
+    (async () => {
+      console.log(await products);
+    })();
+  }, []);
   return (
     <section className="flex flex-col gap-10">
       <div className="h-96 bg-slate-200">{/* Banner image */}</div>

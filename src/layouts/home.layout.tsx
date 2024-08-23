@@ -1,19 +1,22 @@
 import { Outlet, useLoaderData } from "react-router-dom";
 import { Header } from "../components/header";
 import { Product } from "../pages/home";
+import { UserSession } from "../types/auth";
 
 export const HomeLayout = () => {
   const data = useLoaderData() as {
     products: Promise<Product[]>;
+    session: Promise<UserSession>;
   };
 
   return (
-    <section className="">
-      <Header />
+    <section className="min-h-screen flex flex-col justify-between">
+      <Header session={data?.session} />
 
       <Outlet
         context={{
           products: data?.products,
+          session: data.session,
         }}
       />
 

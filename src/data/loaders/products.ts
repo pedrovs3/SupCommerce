@@ -2,6 +2,7 @@ import { defer } from "react-router-dom";
 import { supabase } from "../supabase";
 
 export const getProductsLoader = () => {
+  const session = supabase.auth.getUser().then(({ data }) => data);
   const products = supabase
     .from("products")
     .select("*")
@@ -9,5 +10,6 @@ export const getProductsLoader = () => {
 
   return defer({
     products,
+    session,
   });
 };
