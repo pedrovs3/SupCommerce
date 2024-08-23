@@ -1,20 +1,18 @@
-import { createBrowserRouter, defer } from "react-router-dom";
-import { supabase } from "./data/supabase";
+import { createBrowserRouter } from "react-router-dom";
+import { getProductsLoader } from "./data/loaders/products";
+import { HomeLayout } from "./layouts/home.layout";
 import { Home } from "./pages/home";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    loader: () => {
-      const products = supabase
-        .from("products")
-        .select("*")
-        .then(({ data }) => data);
-
-      return defer({
-        products,
-      });
-    },
-    element: <Home />,
+    loader: getProductsLoader,
+    element: <HomeLayout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+    ],
   },
 ]);

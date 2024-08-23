@@ -32,11 +32,11 @@ const HEADER_NAV_ITEMS = [
 
 export const Header = () => {
   return (
-    <header className="w-full py-5 border-b px-28 flex gap-4 justify-between items-center sticky top-0 bg-white">
+    <header className="w-full py-5 border-b px-28 flex gap-4 justify-between items-center sticky top-0 bg-white z-50">
       <h1 className="text-xl">SupCommerce</h1>
 
       <nav>
-        <ul className="flex justify-between gap-4 font-semibold ">
+        <ul className="justify-between gap-4 font-semibold hidden md:flex">
           {HEADER_NAV_ITEMS.map((item, index) => (
             <li
               key={item.label}
