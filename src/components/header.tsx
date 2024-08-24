@@ -1,3 +1,4 @@
+import { cn, DELAY_CLASSES } from "@/lib/utils";
 import { Suspense } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { PiShoppingCartSimple } from "react-icons/pi";
@@ -18,11 +19,20 @@ export const Header = ({ session }: HeaderProps) => {
 
       <nav>
         <ul className="justify-between gap-4 font-semibold hidden md:flex">
-          <Link className="px-4 py-3 hover:bg-slate-100 rounded-lg" to={"/"}>
+          <Link
+            className={cn(
+              "px-4 py-3 opacity-0 hover:bg-slate-100 rounded-lg animate-fade-in",
+              DELAY_CLASSES[0]
+            )}
+            to={"/"}
+          >
             Início
           </Link>
           <Link
-            className="px-4 py-3 hover:bg-slate-100 rounded-lg"
+            className={cn(
+              "px-4 py-3  opacity-0 hover:bg-slate-100 rounded-lg animate-fade-in",
+              DELAY_CLASSES[1]
+            )}
             to={"/products"}
           >
             Produtos
@@ -30,7 +40,12 @@ export const Header = ({ session }: HeaderProps) => {
 
           <Popover>
             <PopoverTrigger asChild>
-              <li className="cursor-pointer flex gap-2 items-center justify-center px-4 py-3 hover:bg-slate-100 rounded-lg">
+              <li
+                className={cn(
+                  "cursor-pointer opacity-0 flex gap-2 items-center justify-center px-4 py-3 hover:bg-slate-100 rounded-lg animate-fade-in",
+                  DELAY_CLASSES[2]
+                )}
+              >
                 <PiShoppingCartSimple />
                 Carrinho
               </li>
@@ -50,7 +65,10 @@ export const Header = ({ session }: HeaderProps) => {
                 return user ? (
                   <>
                     <button
-                      className="px-4 py-3 hover:bg-red-100 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center"
+                      className={cn(
+                        "px-4 py-3 hover:bg-red-100 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center animate-fade-in",
+                        DELAY_CLASSES[3]
+                      )}
                       onClick={async () => {
                         const { error } = await supabase.auth.signOut();
 
@@ -69,13 +87,15 @@ export const Header = ({ session }: HeaderProps) => {
                 ) : (
                   <>
                     <Link
-                      className="px-4 py-3 hover:bg-slate-700 bg-slate-900 text-slate-50 drop-shadow rounded-lg hover:rounded-xl transition-all ease-in-out"
+                      className={cn(
+                        "px-4 py-3 hover:bg-slate-700 bg-slate-900 text-slate-50 drop-shadow rounded-lg hover:rounded-xl animate-fade-in transition-all ease-in-out "
+                      )}
                       to={"/login"}
                     >
                       Entrar
                     </Link>
                     <Link
-                      className="px-4 py-3 hover:bg-slate-400 hover:text-slate-800 drop-shadow bg-slate-700 text-slate-50 rounded-lg hover:rounded-xl transition-all ease-in-out"
+                      className="px-4 py-3 hover:bg-slate-400 hover:text-slate-800 drop-shadow bg-slate-700 text-slate-50 rounded-lg hover:rounded-xl transition-all ease-in-out animate-fade-in duration-500"
                       to={"/register"}
                     >
                       Cadastrar

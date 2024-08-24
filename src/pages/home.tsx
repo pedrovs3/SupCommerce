@@ -1,6 +1,6 @@
+import { cn, DELAY_CLASSES } from "@/lib/utils";
 import { Suspense, useEffect } from "react";
 import { Await, useOutletContext } from "react-router-dom";
-import { cn, DELAY_CLASSES } from "../lib/tailwind";
 import { HomeContext } from "../types/home";
 
 export interface Product {
@@ -59,7 +59,7 @@ export function Home() {
                   <div
                     key={product.id}
                     className={cn(
-                      "bg-white opacity-0 p-4 min-w-96 max-w-sm shadow rounded-xl flex flex-col justify-between gap-2 w-full animate-fade-in",
+                      "bg-white opacity-0 p-4 min-w-96 max-w-sm shadow rounded-xl flex flex-col justify-between gap-2 w-full animate-fade-in ",
                       DELAY_CLASSES[index]
                     )}
                   >

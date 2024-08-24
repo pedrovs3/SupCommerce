@@ -76,6 +76,13 @@ module.exports = {
         sans: ["Nunito", "sans-serif"],
         heading: ["QuickSand", "sans-serif"],
       },
+      transitionDuration: {
+        DEFAULT: "0.3s",
+      },
+      transitionDelay: {
+        400: "400ms",
+        600: "600ms",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

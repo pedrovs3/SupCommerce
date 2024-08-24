@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   FieldComponent,
   FieldValidators,
@@ -23,6 +24,8 @@ interface FieldProps {
       >
     | undefined;
   type?: string;
+  placeholder?: string;
+  className?: string;
 }
 
 export const FormField = ({
@@ -31,12 +34,14 @@ export const FormField = ({
   Field,
   validators,
   type,
+  placeholder,
+  className,
 }: FieldProps) => (
   <Field
     name={id}
     validators={validators}
     children={(field) => (
-      <div className="flex flex-col">
+      <div className={cn("flex flex-col", className)}>
         {label && <label htmlFor={id}>{label}</label>}
         <input
           type={type ? type : "text"}
@@ -46,6 +51,7 @@ export const FormField = ({
           onBlur={field.handleBlur}
           onChange={(e) => field.handleChange(e.target.value)}
           className="border border-gray-300 px-4 py-3 rounded-lg"
+          placeholder={placeholder}
         />
         <FieldInfo field={field} />
       </div>
