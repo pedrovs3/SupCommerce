@@ -39,7 +39,7 @@ export function LoginPage() {
   const { Field, Subscribe, handleSubmit } = form;
 
   return (
-    <section className="flex flex-col gap-4 items-center justify-center h-screen">
+    <section className="flex flex-col gap-4 items-center justify-center h-screen px-5 md:p-0">
       <header className="flex flex-col items-center max-w-sm w-full">
         <Link
           to="/"
