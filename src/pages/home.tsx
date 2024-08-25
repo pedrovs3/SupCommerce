@@ -1,25 +1,13 @@
+import { ProductCard } from "@/components/product-card";
 import { cn, DELAY_CLASSES } from "@/lib/utils";
-import { Suspense, useEffect } from "react";
+import { Product } from "@/types/products";
+import { Suspense } from "react";
 import { Await, useOutletContext } from "react-router-dom";
 import { HomeContext } from "../types/home";
 
-export interface Product {
-  id: number;
-  created_at: string;
-  name: string;
-  description: string;
-  price: number;
-  image_url: string;
-}
-
 export function Home() {
-  const { products }: HomeContext = useOutletContext();
+  const { products, session }: HomeContext = useOutletContext();
 
-  useEffect(() => {
-    (async () => {
-      console.log(await products);
-    })();
-  }, []);
   return (
     <section className="flex flex-col gap-10">
       <div className="h-96 bg-slate-200">{/* Banner image */}</div>
@@ -56,29 +44,12 @@ export function Home() {
             >
               {(products: Product[]) =>
                 products.map((product, index) => (
-                  <div
+                  <ProductCard
                     key={product.id}
-                    className={cn(
-                      "bg-white opacity-0 p-4 min-w-96 max-w-sm shadow rounded-xl flex flex-col justify-between gap-2 w-full animate-fade-in ",
-                      DELAY_CLASSES[index]
-                    )}
-                  >
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-full h-48 object-cover rounded-lg aspect-video"
-                    />
-                    <main>
-                      <h3 className="text-xl font-semibold">{product.name}</h3>
-                      <p className="text-gray-500 max-h-24">
-                        {product.description.substring(0, 100)}...
-                      </p>
-                    </main>
-
-                    <button className="w-full shadow hover:shadow-md py-3 px-4 bg-black text-white font-medium rounded-lg hover:bg-zinc-800 transition-all ease-in-out">
-                      R$ {product.price.toFixed(2)}
-                    </button>
-                  </div>
+                    {...product}
+                    session={session}
+                    index={index}
+                  />
                 ))
               }
             </Await>

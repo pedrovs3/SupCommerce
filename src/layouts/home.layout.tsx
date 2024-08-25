@@ -1,6 +1,6 @@
+import { Product } from "@/types/products";
 import { Outlet, useLoaderData } from "react-router-dom";
 import { Header } from "../components/header";
-import { Product } from "../pages/home";
 import { UserSession } from "../types/auth";
 
 export const HomeLayout = () => {

@@ -5,6 +5,7 @@ import { PiShoppingCartSimple } from "react-icons/pi";
 import { Await, Link, useNavigate } from "react-router-dom";
 import { supabase } from "../data/supabase";
 import { UserSession } from "../types/auth";
+import { CartPopover } from "./cart-popover";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface HeaderProps {
@@ -14,8 +15,8 @@ interface HeaderProps {
 export const Header = ({ session }: HeaderProps) => {
   const navigate = useNavigate();
   return (
-    <header className="w-full py-5 border-b px-28 flex gap-4 justify-between items-center sticky top-0 bg-white z-50">
-      <h1 className="text-xl">SupCommerce</h1>
+    <header className="w-full py-5 border-b px-28 flex gap-4 justify-between items-center sticky top-0 bg-white z-50 transition-all ease-in-out">
+      <h1 className="text-xl animate-fade-in">SupCommerce</h1>
 
       <nav>
         <ul className="justify-between gap-4 font-semibold hidden md:flex">
@@ -50,23 +51,36 @@ export const Header = ({ session }: HeaderProps) => {
                 Carrinho
               </li>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <h2 className="text-xl font-semibold">Seu carrinho</h2>
-              <p className="text-sm text-gray-600">
-                Você ainda não tem nada no carrinho.
-              </p>
-            </PopoverContent>
+            <Suspense
+              fallback={<div className="h-12 animate-pulse flex-1 min-w-10" />}
+            >
+              <Await resolve={session}>
+                {({ user }) => {
+                  return user ? (
+                    <CartPopover session={user} />
+                  ) : (
+                    <PopoverContent className="w-80">
+                      <h2 className="text-xl font-semibold">Seu carrinho</h2>
+                      <p className="text-sm text-gray-600">
+                        Você ainda não tem nada no carrinho.
+                      </p>
+                    </PopoverContent>
+                  );
+                }}
+              </Await>
+            </Suspense>
           </Popover>
 
-          <Suspense fallback={<li>Carregando...</li>}>
+          <Suspense
+            fallback={<div className="h-12 animate-pulse flex-1 min-w-10" />}
+          >
             <Await resolve={session}>
               {({ user }) => {
-                console.log(user);
                 return user ? (
                   <>
                     <button
                       className={cn(
-                        "px-4 py-3 hover:bg-red-100 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center animate-fade-in",
+                        "px-4 py-3 hover:bg-red-100 opacity-0 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center animate-fade-in",
                         DELAY_CLASSES[3]
                       )}
                       onClick={async () => {

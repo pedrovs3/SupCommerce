@@ -8,25 +8,24 @@ import { z } from "zod";
 import { FormField } from "../components/form-field";
 import { supabase } from "../data/supabase";
 
-export function LoginPage() {
+export function RegisterPage() {
   const navigate = useNavigate();
   const form = useForm({
     onSubmit: async ({ value }) => {
       const { email, password } = value as { email: string; password: string };
 
       try {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
         });
 
         if (error) {
           console.error(error);
-          toast.error("Erro ao fazer login");
+          toast.error("Erro ao criar conta");
           return;
         }
-
-        navigate("/");
+        navigate("/login");
       } catch (error) {
         console.error(error);
       }
@@ -55,7 +54,7 @@ export function LoginPage() {
             DELAY_CLASSES[1]
           )}
         >
-          Faça login para continuar
+          Crie uma conta para continuar
         </p>
       </header>
       <main className="max-w-sm w-full">
@@ -170,12 +169,12 @@ export function LoginPage() {
           DELAY_CLASSES[5]
         )}
       >
-        <span className="text-muted-foreground">Ainda não tem uma conta?</span>
+        <span className="text-muted-foreground">Ja possui uma conta?</span>
         <Link
-          to="/register"
+          to="/login"
           className="tex-primary font-semibold border-b border-b-transparent hover:border-primary transition-all ease-in-out"
         >
-          Registre-se
+          Entre agora
         </Link>
       </footer>
     </section>

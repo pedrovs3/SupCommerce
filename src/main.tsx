@@ -8,6 +8,6 @@ import { router } from "./routes";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
-    <Toaster richColors />
+    <Toaster richColors className="light" />
   </StrictMode>
 );
