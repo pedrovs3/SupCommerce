@@ -56,12 +56,10 @@ export const ProductCard = ({
                   return;
                 }
 
-                const response = await addItemToCart({
+                await addItemToCart({
                   productId: id?.toString(),
                   userId: user.id,
                 });
-
-                console.log(response);
               }}
               className="w-full shadow hover:shadow-md py-3 px-4 bg-black text-white font-medium rounded-lg hover:bg-zinc-800 transition-all ease-in-out"
             >
