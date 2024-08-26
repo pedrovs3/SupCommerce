@@ -1,10 +1,10 @@
-import { clearCart, excludeItemFromCart } from "@/data/cart";
+import { clearCart, removeFromCart, updateCartItemQuantity } from "@/data/cart";
 import { supabase } from "@/data/supabase";
 import { UserSession } from "@/types/auth";
 import { CartItem } from "@/types/cart";
-import { formatCurrency } from "@/utils/formatters";
 import { useEffect, useState } from "react";
-import { LuX } from "react-icons/lu";
+import { LuArrowRight, LuMinus, LuPlus, LuTrash } from "react-icons/lu";
+import { Link } from "react-router-dom";
 import { PopoverContent } from "./ui/popover";
 
 interface CartPopoverProps {
@@ -44,54 +44,85 @@ export function CartPopover({ session }: CartPopoverProps) {
   }, []);
 
   return (
-    <PopoverContent className="w-80 flex flex-col gap-4 rounded-xl">
-      <h2 className="text-xl font-semibold">Seu carrinho</h2>
+    <PopoverContent className="lg:w-96 w-80 flex flex-col gap-2 rounded-xl transition-all ease-in-out">
+      <h2 className="text-xl font-semibold border-b pb-2">Seu carrinho</h2>
       {cartItems.length === 0 ? (
         <p className="text-sm text-gray-600 animate-fade-in transition-all ease-in-out">
           Você ainda não tem nada no carrinho.
         </p>
       ) : (
         <>
-          <ul className="flex flex-col gap-2 transition-all ease-in-out">
+          <ul className="flex flex-col gap-2 transition-all ease-in-out divide-y-[1px]">
             {cartItems.map((item) => (
-              <li
-                key={item.id}
-                className="bg-slate-50 px-2 py-3 rounded-lg flex justify-between items-center gap-2"
-              >
-                <div className="flex gap-2">
+              <li key={item.id}>
+                <div className="flex items-center justify-between gap-2  p-2 rounded-lg">
                   <img
-                    className="max-w-16 h-16 object-cover rounded-lg"
                     src={item.products.image_url}
                     alt={item.products.name}
+                    className="w-16 h-16 object-cover rounded-lg"
                   />
-                  <span className="flex flex-col">
-                    <h3>
-                      <span className="text-muted-foreground">
-                        {item.quantity}x
-                      </span>{" "}
-                      {item.products.name}
-                    </h3>
-                    <p className="text-sm font-semibold ">
-                      {formatCurrency(item.products.price)}
-                    </p>
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="font-semibold">{item.products.name}</span>
+                    <span className="text-sm text-gray-600">
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(item.products.price)}
+                    </span>
+                  </div>
+                  <div className="flex gap-2 items-center justify-center border  rounded-lg px-2 py-1">
+                    <button
+                      onClick={async () => {
+                        await updateCartItemQuantity(
+                          item.id,
+                          item.quantity - 1
+                        );
+                      }}
+                      disabled={item.quantity === 1}
+                      className="disabled:opacity-50"
+                    >
+                      <LuMinus size={18} />
+                    </button>
+                    {item.quantity}
+
+                    <button
+                      onClick={async () => {
+                        await updateCartItemQuantity(
+                          item.id,
+                          item.quantity + 1
+                        );
+                      }}
+                    >
+                      <LuPlus size={18} />
+                    </button>
+                  </div>
+                  <button
+                    className="p-2 rounded-lg hover:text-red-600 hover:bg-red-100 transition-all ease-in-out"
+                    onClick={async () => {
+                      await removeFromCart(item.id);
+                    }}
+                  >
+                    <LuTrash size={18} />
+                  </button>
                 </div>
-                <button
-                  onClick={async () => {
-                    await excludeItemFromCart(item.id);
-                  }}
-                  className="text-red-500 pr-2"
-                >
-                  <LuX />
-                </button>
               </li>
             ))}
           </ul>
+          <Link
+            to={"checkout"}
+            state={{
+              cartItems,
+            }}
+            className="px-4 py-3 flex justify-between items-center gap-2 hover:bg-slate-700 mt-auto bg-slate-900 text-slate-50 drop-shadow rounded-lg hover:rounded-xl animate-fade-in transition-all ease-in-out"
+          >
+            Finalizar compra
+            <LuArrowRight size={18} />
+          </Link>
           <button
             onClick={async () => {
               await clearCart(session.id);
             }}
-            className="px-4 py-3 hover:bg-red-100 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center transition-all ease-in-out"
+            className="px-4 py-3 animate-fade-in delay-100 opacity-0 hover:bg-red-100 rounded-lg w-full text-red-500 flex gap-2 items-center justify-center transition-all ease-in-out"
           >
             Limpar carrinho
           </button>
