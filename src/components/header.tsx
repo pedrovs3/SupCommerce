@@ -22,7 +22,7 @@ export const Header = ({ session }: HeaderProps) => {
           <MenuItem to="/" delayIndex={0}>
             Início
           </MenuItem>
-          <MenuItem to="/products" delayIndex={1}>
+          <MenuItem disabled to="/products" delayIndex={1}>
             Produtos
           </MenuItem>
           <CartMenuItem session={session} delayIndex={2} />
