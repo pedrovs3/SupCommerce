@@ -21,7 +21,7 @@ export const MobileMenu = ({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="p-5 md:hidden">
+        <button className="p-5 md:hidden animate-fade-in ease-in-out">
           <LuMenu size={24} />
         </button>
       </SheetTrigger>
