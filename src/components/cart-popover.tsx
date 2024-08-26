@@ -2,8 +2,9 @@ import { clearCart, removeFromCart, updateCartItemQuantity } from "@/data/cart";
 import { useCartItems } from "@/hooks/cart-items.hook";
 import { UserSession } from "@/types/auth";
 import { useCallback, useMemo } from "react";
-import { LuArrowRight, LuMinus, LuPlus, LuTrash } from "react-icons/lu";
+import { LuArrowRight } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import { CartItem } from "./cart-item";
 import { PopoverContent } from "./ui/popover";
 
 interface CartPopoverProps {
@@ -51,46 +52,12 @@ export function CartPopover({ session }: CartPopoverProps) {
         <>
           <ul className="flex flex-col gap-2 transition-all ease-in-out divide-y-[1px]">
             {formattedCartItems.map((item) => (
-              <li key={item.id}>
-                <div className="flex items-center justify-between gap-2 p-2 rounded-lg">
-                  <img
-                    src={item.products.image_url}
-                    alt={item.products.name}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
-                  <div className="flex flex-col">
-                    <span className="font-semibold">{item.products.name}</span>
-                    <span className="text-sm text-gray-600">
-                      {item.formattedPrice}
-                    </span>
-                  </div>
-                  <div className="flex gap-2 items-center justify-center border rounded-lg px-2 py-1">
-                    <button
-                      onClick={() =>
-                        handleUpdateQuantity(item.id, item.quantity - 1)
-                      }
-                      disabled={item.quantity === 1}
-                      className="disabled:opacity-50"
-                    >
-                      <LuMinus size={18} />
-                    </button>
-                    {item.quantity}
-                    <button
-                      onClick={() =>
-                        handleUpdateQuantity(item.id, item.quantity + 1)
-                      }
-                    >
-                      <LuPlus size={18} />
-                    </button>
-                  </div>
-                  <button
-                    className="p-2 rounded-lg hover:text-red-600 hover:bg-red-100 transition-all ease-in-out"
-                    onClick={() => handleRemoveItem(item.id)}
-                  >
-                    <LuTrash size={18} />
-                  </button>
-                </div>
-              </li>
+              <CartItem
+                key={item.id}
+                onUpdateQuantity={handleUpdateQuantity}
+                onRemoveItem={handleRemoveItem}
+                {...item}
+              />
             ))}
           </ul>
           <Link
