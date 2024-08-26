@@ -62,7 +62,14 @@ export function CartPopover({ session }: CartPopoverProps) {
           </ul>
           <Link
             to={"checkout"}
-            state={{ cartItems }}
+            state={{
+              cartItems,
+              total: cartItems.reduce(
+                (acc, item) => acc + item.products.price * item.quantity,
+                0
+              ),
+              session,
+            }}
             className="px-4 py-3 flex justify-between items-center gap-2 hover:bg-slate-700 mt-auto bg-slate-900 text-slate-50 drop-shadow rounded-lg hover:rounded-xl animate-fade-in transition-all ease-in-out"
           >
             Finalizar compra

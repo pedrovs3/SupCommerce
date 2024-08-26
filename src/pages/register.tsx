@@ -156,7 +156,7 @@ export function RegisterPage() {
                     fill="currentFill"
                   />
                 </svg>
-                Entrar
+                Cadastrar
               </button>
             )}
           />

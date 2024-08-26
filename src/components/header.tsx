@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserSession } from "../types/auth";
 import { AuthButtons } from "./auth-buttons";
 import { CartMenuItem } from "./cart-menu-item";
@@ -11,6 +11,10 @@ export interface HeaderProps {
 
 export const Header = ({ session }: HeaderProps) => {
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  console.log(location);
 
   return (
     <header className="w-full py-5 border-b px-10 md:px-28 flex gap-4 justify-between items-center sticky top-0 bg-white z-50 transition-all ease-in-out">
@@ -25,7 +29,9 @@ export const Header = ({ session }: HeaderProps) => {
           <MenuItem disabled to="/products" delayIndex={1}>
             Produtos
           </MenuItem>
-          <CartMenuItem session={session} delayIndex={2} />
+          {location.pathname !== "/checkout" && (
+            <CartMenuItem session={session} delayIndex={2} />
+          )}
           <AuthButtons session={session} delayIndex={3} navigate={navigate} />
         </ul>
       </nav>

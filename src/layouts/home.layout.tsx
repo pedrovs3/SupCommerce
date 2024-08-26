@@ -24,9 +24,11 @@ export const HomeLayout = () => {
         <p className="text-center">
           &copy; {new Date().getFullYear()} - Todos os direitos reservados
         </p>
-        <span className="w-full text-xs max-w-screen-xl text-center ">
-          <strong className="font-semibold">Aviso Importante:</strong> Este
-          e-commerce é um projeto desenvolvido exclusivamente para fins
+        <span className="w-full text-xs max-w-screen-xl text-center text-muted-foreground ">
+          <strong className="font-semibold text-foreground">
+            Aviso Importante:
+          </strong>{" "}
+          Este e-commerce é um projeto desenvolvido exclusivamente para fins
           educativos. Todo o conteúdo e funcionalidades aqui apresentados têm o
           objetivo de proporcionar um ambiente de aprendizado e prática em
           desenvolvimento web. Este site não é uma loja real e não está
